@@ -20,5 +20,8 @@ agents:
   pt_heartbeat:
     name: Localhost
     database: 'NAME_OF_DATABASE'
-    server_id: 'MASTER_SERVER_ID'
+    #master_server_id: 'MASTER_SERVER_ID'
+    #user: 'DATABASE_USER'
+    #password: 'DATABASE_PASSWORD'
+    #host: 'DATABASE_HOST'
 

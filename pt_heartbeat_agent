@@ -10,12 +10,36 @@ module PtHeartbeatAgent
   class Agent < NewRelic::Plugin::Agent::Base
 
     agent_guid "com.scoutmob.pt_heartbeat"
-    agent_version "1.0.1"
-    agent_config_options :name, :server_id, :database
-    agent_human_labels("pt-heartbeat") { "pt-heartbeat" }
+    agent_version "1.0.2"
+    agent_config_options :name, :master_server_id, :database, :user, :password, :host
+    agent_human_labels("pt-heartbeat") { "pt-heartbeat on #{name}" }
 
     def poll_cycle
-      lag = `sudo pt-heartbeat -D #{database} --check --master-server-id=#{server_id}`
+      heartbeat_options = [
+        '-D', database,
+        '--check'
+      ]
+
+      if master_server_id
+        heartbeat_options << "--master_server_id=#{master_server_id}"
+      end
+
+      if user
+        heartbeat_options << '-u'
+        heartbeat_options << user
+      end
+
+      if password
+        heartbeat_options << '-p'
+        heartbeat_options << password
+      end
+
+      if host
+        heartbeat_options << '-h'
+        heartbeat_options << host
+      end
+
+      lag = `sudo pt-heartbeat #{heartbeat_options.join(' ')}`
       puts lag
       report_metric "ReplicationLag", "Value", lag.to_f
     end
