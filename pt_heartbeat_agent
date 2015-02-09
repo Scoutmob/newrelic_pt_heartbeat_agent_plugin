@@ -10,7 +10,7 @@ module PtHeartbeatAgent
   class Agent < NewRelic::Plugin::Agent::Base
 
     agent_guid "com.scoutmob.pt_heartbeat"
-    agent_version "1.0.2"
+    agent_version "1.0.3"
     agent_config_options :name, :master_server_id, :database, :user, :password, :host
     agent_human_labels("pt-heartbeat") { "pt-heartbeat on #{name}" }
 
@@ -21,7 +21,7 @@ module PtHeartbeatAgent
       ]
 
       if master_server_id
-        heartbeat_options << "--master_server_id=#{master_server_id}"
+        heartbeat_options << "--master-server-id=#{master_server_id}"
       end
 
       if user
