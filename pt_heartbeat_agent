@@ -17,6 +17,7 @@ module PtHeartbeatAgent
     def poll_cycle
       heartbeat_options = [
         '-D', database,
+        '--utc',
         '--check'
       ]
 
